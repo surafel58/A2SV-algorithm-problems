@@ -28,7 +28,7 @@ class Solution {
                 return i;
         }
         
-        //return -1 if there is not pivot index
+        //return -1 if there is not pivot index 
         return -1;
     }
 }
