@@ -1,43 +1,110 @@
 class Solution {
-    public double myPow(double x, int n) { 
+    //I used Dynamic programming 
+    
+    //a hasmap to memoize the solutions for some n
+    HashMap<Integer, Double> memo = new HashMap<>();
+    
+    //to store the value of p(x,n)
+    double k;
+    
+    public double myPow(double x, int n) {
         
-        //base cases
-        if(n==0 || x==1)
-            return 1;
+        //if the solution is found or already solved in the memo then return that solution
+        if(memo.containsKey(n))
+            return memo.get(n);
         
-        if(x == 0) 
-            return 0;
+        //base case
+        if(n==1||x==1)
+            k = x;
         
-        //if power is negative then it must be 1 / pow(x,n)
-        if(n < 0)
-        {
-            //if n is the maximum number considering the constraint, then return 1 or 0  
-            if(n == Math.pow(-2, 31)) 
-            {
-                //if x is -1 then it must be 1
-                if(x == -1)
-                    return 1;
-                //otherwise 0
-                return 0;
-            }
-            
-            //call the function recursively
-            return 1 / (x * myPow(x, (Math.abs(n) - 1)));
-        }
+        //exceptional cases
+        else if(x==0)
+            k = 0;
         
+        else if(n==0)
+            k = 1;
+        
+        //else recursively solve myPow(x, Math.abs(n/2)) * myPow(x, Math.abs(n/2)) - even, or solve myPow(x, Math.abs(n/2)) * myPow(x, Math.abs(n - n/2)) - odd
         else
         {
-            //if n is the maximum number considering the constraint, then return -1 or 0  
-            if(n == (Math.pow(2, 31) - 1))
+            k = (myPow(x, Math.abs(n/2)));
+            
+            //if n is negative k = 1/result
+            if(n<0)
             {
-                //if x is -1 then it must be -1
-                if(x == -1)
-                    return -1;
-                //otherwise 0
-                return 0;
+                if(n%2!=0)
+                    k = 1/(k * myPow(x, Math.abs(n - n/2)));
+                else
+                    k = 1/(k * k);
             }
-            //call the function recursively (pow(x, n-1))
-            return x * myPow(x, (n - 1));
+            
+            
+            else
+            {
+                if(n%2!=0)
+                    k = (k * myPow(x, n - n/2));
+                else
+                    k =  (k * k);
+            }
         }
+        
+        //put the solution in the memo 
+        memo.put(n,k);
+        
+        //return the result
+        return k;
     }
 }
+
+
+/*
+Another Solution 
+
+class Solution {
+
+    //to store the value of p(x,n)
+    double k;
+    
+    public double myPow(double x, int n) {
+        
+        //base cases
+        if(n==1||x==1)
+            k = x;
+        
+        //exceptional cases
+        else if(x==0)
+            k = 0;
+        
+        else if(n==0)
+            k = 1;
+        
+        
+        //else recursively solve k = myPow(x, Math.abs(n/2)) and result = k * k - even, or solve myPow(x, Math.abs(n/2)) and result = k * k * x - odd
+        else
+        {
+             k = (myPow(x, Math.abs(n/2)));
+                    
+            //if n is negative k = 1/result
+            if(n<0)
+            {
+                if(n%2!=0)
+                    k = 1/(k * k * x);
+                else
+                    k = 1/(k * k);
+            }
+            
+            
+            else
+            {
+                if(n%2!=0)
+                    k = (k * k * x);
+                else
+                    k = (k * k);
+            }
+        }
+        
+        //return the result
+        return k;
+    }
+}
+*/
