@@ -21,7 +21,7 @@ class Solution {
         else if(x==0)
             k = 0;
         
-        else if(n==0)
+        else if(n==0) 
             k = 1;
         
         //else recursively solve myPow(x, Math.abs(n/2)) * myPow(x, Math.abs(n/2)) - even, or solve myPow(x, Math.abs(n/2)) * myPow(x, Math.abs(n - n/2)) - odd
