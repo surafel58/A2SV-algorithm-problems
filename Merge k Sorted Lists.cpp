@@ -8,6 +8,8 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
+//USING TWO POINTERS
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
@@ -134,3 +136,69 @@ public:
             return lists[s];
     }
 };
+
+
+
+
+
+//USING HEAP
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        
+        //if list of array is empty return NULL
+        if(lists.length == 0)
+            return null;
+        
+        //min Heap
+        PriorityQueue<Integer> minHeap = new PriorityQueue<Integer>(); 
+        
+        //copy values of lists to minHeap
+        for(int i=0; i<lists.length; i++)
+        {
+            ListNode temp = lists[i];
+            while(temp!=null)
+            {
+                minHeap.add(temp.val);
+                temp = temp.next;
+            }
+        }
+        
+        //initialize pointers
+        ListNode mergedList = null, temp2 = null;
+        
+        //keep polling items from min heap and add it to the new list(mergedList)
+        while(minHeap.size() != 0)
+        {
+            int val = minHeap.poll();
+            
+            //copy node to mergedList
+            if (mergedList == null)
+            {
+                mergedList = new ListNode();
+                mergedList.val = val;
+                mergedList.next = null;
+                temp2 = mergedList;
+            }
+            else
+            {
+                temp2.next = new ListNode();
+                temp2 = temp2.next;
+                temp2.val = val;
+                temp2.next = null;
+            }
+        }
+        
+        //return the merged list
+        return mergedList;
+    }
+}
