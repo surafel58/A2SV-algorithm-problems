@@ -18,4 +18,4 @@ class Solution {
     //retrn h index
     return h-1;
     }
-}
+} 
