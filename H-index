@@ -1,0 +1,21 @@
+class Solution {
+    public int hIndex(int[] citations) {
+        
+        //sort the list of citation
+        Arrays.sort(citations);    
+        
+        //h-index
+        int h = 1;
+        
+        //starting from last element, compare h-index with the citations and increment h-index if its valid  
+        for(int i=citations.length-1; i>=0; i--)
+        {
+            if(citations[i] < h)
+                break;
+            h++;
+        }
+        
+    //retrn h index
+    return h-1;
+    }
+}
