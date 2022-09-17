@@ -1,0 +1,93 @@
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        
+        //result
+        ArrayList<Integer> result = new ArrayList<>();
+        
+        //visited index tracker
+        ArrayList<String> indexes = new ArrayList<>();
+
+        //traversing directions
+        boolean forward = true, downward, backward, upward; 
+        downward = backward = upward = false; 
+        
+        //indexes
+        int i=0, j=0;
+        
+        //iterate through the 2D array and move based on the direction
+        while(result.size() != (matrix.length * matrix[0].length))
+        {
+            //move forward 
+            if(forward)
+            {
+                if(result.size() != 0)
+                    j++;
+                                
+                while(!indexes.contains(Integer.toString(i) + Integer.toString(j)) && j < matrix[0].length)
+                {
+                    result.add(matrix[i][j]);
+                    indexes.add(Integer.toString(i) + Integer.toString(j));
+                    j++;
+                }
+                
+                //trigger downward move    
+                forward = false;
+                downward = true;
+                j--;
+            }
+            
+            //move downward 
+            else if(downward)
+            {
+                i++;
+                while(!indexes.contains(Integer.toString(i) + Integer.toString(j)) && i < matrix.length)
+                {
+                    result.add(matrix[i][j]);
+                    indexes.add(Integer.toString(i) + Integer.toString(j));
+                    i++;
+                }
+                
+                downward = false;
+                backward = true;
+                i--;                
+            }
+            else if(backward)
+            {
+                j--;
+                while(!indexes.contains(Integer.toString(i) + Integer.toString(j)) && j >= 0)
+                {
+                    result.add(matrix[i][j]);
+                    indexes.add(Integer.toString(i) + Integer.toString(j));
+                    j--;
+                }
+                
+                //trigger upward move    
+                backward = false;
+                upward = true;
+                j++;                  
+            }
+            
+            //move upward
+            else if(upward)
+            {
+                i--;
+                
+                //check if the index is already visited or its valid
+                while(!indexes.contains(Integer.toString(i) + Integer.toString(j)) && i >= 0)
+                {
+                    result.add(matrix[i][j]);
+                    indexes.add(Integer.toString(i) + Integer.toString(j));
+                    i--;
+                }
+
+                //trigger forward move                    
+                upward = false;
+                forward = true;
+                i++;                  
+            }
+        }
+        
+        //return result
+        return result;
+    }
+}
